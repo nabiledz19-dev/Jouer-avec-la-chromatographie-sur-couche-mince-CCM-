@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jouer avec la chromatographie sur couche mince (CCM)</title>
+<link rel="icon" type="image/png" href="images/favicon.png">
+<link rel="apple-touch-icon" href="images/logo-professeur.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="blobs" aria-hidden="true">
+  <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span>
+</div>
+
+<header id="topbar" class="topbar hidden">
+  <button id="btnBackMap" class="btn-ghost" type="button">← Niveaux</button>
+  <div class="topbar-player" id="tbPlayer">—</div>
+  <div class="topbar-score">⭐ <span id="tbTotal">0</span> pts</div>
+  <div class="lang-switch" role="group" aria-label="Langue / Language / اللغة">
+    <button class="lang-btn" data-lang="fr" type="button">FR</button>
+    <button class="lang-btn" data-lang="en" type="button">EN</button>
+    <button class="lang-btn" data-lang="ar" type="button">ع</button>
+  </div>
+  <button class="sound-btn" data-sound type="button" aria-label="Son">🔊</button>
+  <button id="btnRulesTop" class="btn-ghost btn-small" type="button" aria-label="Règles du jeu" data-i18n-aria="nav.rulesAria">📖</button>
+  <button id="btnManuelTop" class="btn-ghost btn-small" type="button" aria-label="Fiches du manuel CCM" data-i18n-aria="nav.manualAria">📚</button>
+</header>
+
+<main id="app">
+
+  <!-- ---------- ACCUEIL ---------- -->
+  <section id="screen-home" class="screen">
+    <div class="home-card">
+      <div class="hero">
+        <img src="images/tlc-hero.jpg" alt="Plaque de chromatographie sur couche mince dans une cuve d'éluant">
+        <span class="hero-badge" data-i18n="home.badge">Mode difficile · Chrono &amp; calculs</span>
+      </div>
+
+      <div class="brand">
+        <img class="brand-logo" src="images/logo-professeur.png" alt="Professeur Douadi Nabil">
+        <div class="brand-txt">
+          <strong>Professeur Douadi Nabil</strong>
+          <span data-i18n="home.brandSub">INSFP El Hidhab · Jeu éducatif CCM</span>
+        </div>
+      </div>
+
+      <div class="home-tools">
+        <div class="lang-switch home-lang" role="group" aria-label="Langue / Language / اللغة">
+          <button class="lang-btn" data-lang="fr" type="button">Français</button>
+          <button class="lang-btn" data-lang="en" type="button">English</button>
+          <button class="lang-btn" data-lang="ar" type="button">العربية</button>
+        </div>
+        <button class="sound-btn" data-sound type="button" aria-label="Son">🔊</button>
+      </div>
+
+      <h1 data-i18n="home.title" data-i18n-html>Jouer avec la <span class="grad">chromatographie<br>sur couche mince</span> (CCM)</h1>
+      <p class="lead" data-i18n="home.lead" data-i18n-html>
+        6 niveaux <strong>difficiles</strong> fondés sur le manuel du formateur CCM : un chrono sur chaque étape,
+        des pénalités à chaque erreur, des gestes de précision sans repère, des calculs de Rf et de Rs,
+        les cinq montages M1 à M5 et les modes de révélation.
+        Un cadeau à chaque niveau, un certificat à la fin… si tu es à la hauteur&nbsp;!
+      </p>
+
+      <form id="playerForm" class="player-form" autocomplete="off">
+        <label class="field">
+          <span data-i18n="home.nameLabel">Nom et prénom du joueur</span>
+          <input id="inputNomComplet" type="text" maxlength="48" placeholder="Ex : Douadi Nabil" data-i18n-placeholder="home.namePlaceholder" required>
+        </label>
+        <button type="submit" class="btn btn-primary btn-wide" data-i18n="home.start">Commencer l'aventure 🚀</button>
+      </form>
+
+      <p id="formHint" class="hint hidden"></p>
+
+      <div class="home-actions">
+        <button id="btnRulesHome" class="btn btn-ghost" type="button" data-i18n="nav.rules">📖 Règles du jeu</button>
+        <button id="btnManuelHome" class="btn btn-ghost" type="button" data-i18n="nav.manual">📚 Fiches du manuel</button>
+        <a href="fiche-ccm.html" target="_blank" rel="noopener" class="btn btn-ghost" data-i18n="home.printSheet">📄 Fiche CCM à imprimer</a>
+      </div>
+
+      <div class="panel duel-entry">
+        <h3 data-i18n="home.duelTitle">⚔️ Duel : joueur contre joueur</h3>
+        <p class="atelier-note" data-i18n="home.duelText">Deux stagiaires s'affrontent en direct sur 6 questions. Répondez juste le plus vite possible : le premier gagne 120 points, le second 100.</p>
+        <div class="duel-actions">
+          <button id="btnCreateDuel" class="btn btn-primary btn-small" type="button" data-i18n="home.createDuel">Créer un duel</button>
+          <button id="btnJoinDuel" class="btn btn-ghost btn-small" type="button" data-i18n="home.joinDuel">Rejoindre avec un code</button>
+          <button id="btnResumeDuel" class="btn btn-ghost btn-small hidden" type="button" data-i18n="home.resumeDuel">Reprendre le duel</button>
+        </div>
+        <p class="comp-status offline" id="duelStatus" hidden></p>
+      </div>
+
+      <div class="home-extra">
+        <div>
+          <h3 class="mini-title" data-i18n="home.playersTitle">👋 Joueurs déjà inscrits</h3>
+          <div id="homePlayers" class="players-strip"></div>
+        </div>
+        <div>
+          <h3 class="mini-title" data-i18n="home.leaderTitle">🏆 Classement</h3>
+          <div id="homeLeader" class="leaderboard small"></div>
+        </div>
+      </div>
+
+      <p class="credit">
+        <span data-i18n="home.credit">Jeu conçu par</span> <span class="credit-sign">Professeur Douadi Nabil</span>
+        <span class="credit-role" data-i18n="home.creditRole">INSFP El Hidhab · Contrôle de qualité et environnement</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ---------- DUEL ENTRE STAGIAIRES ---------- -->
+  <section id="screen-duel" class="screen hidden">
+    <div class="duel-card">
+      <div class="duel-top">
+        <button id="btnDuelExit" class="btn btn-ghost btn-small" type="button" data-i18n="duel.quit">← Quitter</button>
+        <span class="duel-badge">Code du duel : <b id="duelCode">—</b></span>
+        <button id="btnDuelCopy" class="btn btn-ghost btn-small" type="button" data-i18n="duel.copy">Copier le code</button>
+      </div>
+      <div class="duel-board">
+        <div class="duel-side">
+          <span class="duel-pname" id="duelMeName">—</span>
+          <span class="duel-pscore" id="duelMeScore">0</span>
+        </div>
+        <span class="duel-vs">VS</span>
+        <div class="duel-side opp">
+          <span class="duel-pname" id="duelOppName" data-i18n="duel.waiting">En attente…</span>
+          <span class="duel-pscore" id="duelOppScore">0</span>
+        </div>
+      </div>
+      <div class="duel-progress"><div class="duel-progress-fill" id="duelProgress"></div></div>
+      <p id="duelError" class="hint hidden"></p>
+      <div id="duelBody" class="duel-body"></div>
+    </div>
+  </section>
+
+  <!-- ---------- CARTE DES NIVEAUX ---------- -->
+  <section id="screen-map" class="screen hidden">
+    <div class="map-head">
+      <div>
+        <p class="eyebrow" data-i18n="map.eyebrow">Joueur</p>
+        <h2 id="mapPlayer">—</h2>
+      </div>
+      <div class="map-total">
+        <span id="mapTotal">0</span>
+        <small data-i18n="map.outOf">points / 600</small>
+      </div>
+    </div>
+
+    <div class="bar bar-lg"><div id="mapProgress"></div></div>
+
+    <div id="phaseGrid" class="phase-grid"></div>
+
+    <div class="panels">
+      <div class="panel">
+        <h3 data-i18n="map.gifts">🎁 Mes cadeaux</h3>
+        <div id="giftShelf" class="gift-shelf"></div>
+      </div>
+      <div class="panel">
+        <h3 data-i18n="map.localBoard">🏆 Classement (cet appareil)</h3>
+        <div id="leaderboard" class="leaderboard"></div>
+      </div>
+    </div>
+
+    <div class="panel competition">
+      <h3 data-i18n="map.compTitle">🌐 Compétition en ligne</h3>
+      <p class="comp-status offline" id="compStatus" data-i18n="map.compChecking">Vérification du serveur de compétition…</p>
+      <div id="onlineLeaderboard" class="leaderboard"></div>
+      <div class="comp-actions">
+        <button id="btnPublishScore" class="btn btn-primary btn-small" type="button" data-i18n="map.publish">Publier mon score</button>
+        <button id="btnRefreshOnline" class="btn btn-ghost btn-small" type="button" data-i18n="map.refresh">Actualiser</button>
+        <button id="btnResetOnline" class="btn btn-ghost btn-small" type="button" data-i18n="map.reset">Réinitialiser (professeur)</button>
+      </div>
+      <p class="atelier-note" style="margin-top:8px" data-i18n="map.compNote">Les stagiaires qui ouvrent le jeu en ligne partagent ce classement ; le meilleur score de chaque niveau est conservé.</p>
+    </div>
+
+    <div class="map-actions">
+      <button id="btnCertificat" class="btn btn-primary hidden" type="button" data-i18n="map.certificate">🏅 Voir mon certificat</button>
+      <button id="btnRulesMap" class="btn btn-ghost" type="button" data-i18n="nav.rules">📖 Règles du jeu</button>
+      <button id="btnManuelMap" class="btn btn-ghost" type="button" data-i18n="nav.manual">📚 Fiches du manuel</button>
+      <a href="fiche-ccm.html" target="_blank" rel="noopener" class="btn btn-ghost" data-i18n="map.printSheet">📄 Fiche CCM à imprimer</a>
+      <button id="btnChangePlayer" class="btn btn-ghost" type="button" data-i18n="map.changePlayer">Changer de joueur</button>
+    </div>
+  </section>
+
+  <!-- ---------- NIVEAU EN COURS ---------- -->
+  <section id="screen-phase" class="screen hidden">
+    <div class="phase-head">
+      <div class="phase-emoji" id="phaseEmoji">🔬</div>
+      <div>
+        <p class="eyebrow" id="phaseKicker">Niveau 1</p>
+        <h2 id="phaseTitle">—</h2>
+      </div>
+      <div class="phase-score"><span id="phaseScore">0</span><small data-i18n="phase.outOf">/ 100 pts</small></div>
+    </div>
+    <div class="bar"><div id="phaseProgressBar"></div></div>
+
+    <div id="stepCard" class="card step-card"></div>
+    <div id="stepFooter" class="step-footer"></div>
+  </section>
+
+  <!-- ---------- CERTIFICAT ---------- -->
+  <section id="screen-end" class="screen hidden">
+    <div class="certif">
+      <img class="certif-logo" src="images/logo-professeur.png" alt="Professeur Douadi Nabil">
+      <p class="eyebrow" data-i18n="cert.eyebrow">Certificat de réussite · CCM</p>
+      <h2 id="endName">—</h2>
+      <p class="certif-text" data-i18n="cert.text" data-i18n-html>
+        a terminé les 6 niveaux du jeu<br>
+        <strong>Jouer avec la chromatographie sur couche mince</strong>
+      </p>
+      <div class="certif-total"><span id="endTotal">0</span> <small data-i18n="cert.totalSmall">/ 600 points</small></div>
+      <p class="certif-note"><span data-i18n="cert.note">Note</span> : <b id="endNote">0</b> / 20 <span class="certif-mention" id="endMention">—</span></p>
+      <div class="medal" id="endMedal"></div>
+      <div class="gift-shelf" id="endGifts"></div>
+      <div class="certif-sign">
+        <div class="certif-signature">
+          <svg class="signature-stroke" viewBox="0 0 240 46" aria-hidden="true">
+            <path d="M6 31c13-20 23-25 29-17 6 9-5 18 3 20 9 3 16-17 23-20 6-3 5 11 12 12 8 1 13-13 19-15 5-2 5 9 11 10 9 1 17-8 23-14 6-6 9-3 6 4-3 6-1 9 5 9 9 0 17-6 23-12"/>
+            <path d="M16 39c52-7 128-9 210-5"/>
+          </svg>
+          <p class="certif-sign-name">Professeur Douadi Nabil</p>
+          <p class="certif-sign-role" data-i18n="cert.signRole">Formateur · INSFP El Hidhab</p>
+        </div>
+        <div class="certif-seal" aria-hidden="true">
+          <span>INSFP</span>
+          <strong>PR D. NABIL</strong>
+          <span>CCM</span>
+        </div>
+      </div>
+      <p class="certif-date" id="endDate"></p>
+    </div>
+
+    <div class="map-actions">
+      <button class="btn btn-primary" id="btnPrint" type="button" data-i18n="cert.print">🖨️ Imprimer mon certificat</button>
+      <button class="btn btn-ghost" id="btnEndBack" type="button" data-i18n="cert.back">← Retour aux niveaux</button>
+    </div>
+  </section>
+
+</main>
+
+<!-- ---------- MODALE CADEAU ---------- -->
+<div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-card">
+    <img id="modalImg" class="modal-img" src="images/cadeau.jpg" alt="Cadeau de niveau">
+    <h3 id="modalTitle" data-i18n="modal.title">Cadeau débloqué !</h3>
+    <div class="stars" id="modalStars"></div>
+    <p id="modalText"></p>
+    <button id="modalBtn" class="btn btn-primary btn-wide" type="button" data-i18n="modal.continue">Continuer</button>
+  </div>
+</div>
+
+<div id="rulesModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="rulesTitle">
+  <div class="modal-card rules-card">
+    <h3 id="rulesTitle" data-i18n="rules.title">📖 Règles du jeu</h3>
+    <div class="rules-body" id="rulesBody">
+      <p class="rules-lead">
+        Objectif : terminer les <strong>5 niveaux</strong> de la chromatographie sur couche mince
+        en marquant un maximum de points et en débloquant les 5 cadeaux.
+      </p>
+
+      <h4>👤 Joueurs</h4>
+      <ul>
+        <li>Chaque joueur s’inscrit avec son <strong>nom et prénom</strong>, dans un seul champ.</li>
+        <li>Scores et cadeaux sont enregistrés sur cet ordinateur : on reprend sa partie avec le même nom.</li>
+        <li>Le classement compare tous les joueurs enregistrés sur la machine.</li>
+      </ul>
+
+      <h4>🎯 Progression et points</h4>
+      <ul>
+        <li>6 niveaux, <strong>100 points maximum par niveau</strong> (600 au total).</li>
+        <li>Un niveau se débloque en terminant le précédent (score supérieur à 0).</li>
+        <li>Seul le <strong>meilleur score</strong> de chaque niveau est conservé : rejouer ne peut que l’améliorer.</li>
+        <li>Étoiles : ★ dès qu’un point est marqué, ★★ à partir de 60, ★★★ à partir de 90.</li>
+      </ul>
+
+      <h4>⏱ Chrono (mode difficile)</h4>
+      <table class="rules-table">
+        <tr><th>Étape</th><th>Temps accordé</th></tr>
+        <tr><td>Quiz</td><td>18 s</td></tr>
+        <tr><td>Choix du matériel</td><td>35 s</td></tr>
+        <tr><td>Remise en ordre</td><td>40 s</td></tr>
+        <tr><td>Calculs (Rf, Rs, volume)</td><td>30 s</td></tr>
+        <tr><td>Dépôt sur la plaque</td><td>22 s</td></tr>
+      </table>
+      <p class="rules-note">Temps écoulé = 0 point pour l’étape, et la bonne réponse est affichée.</p>
+
+      <h4>⚠️ Pénalités</h4>
+      <ul>
+        <li>Mauvaise réponse à un quiz : <strong>−5 points</strong>.</li>
+        <li>Chaque intrus coché dans le matériel : <strong>−5 points</strong>.</li>
+        <li>Chaque erreur dans la remise en ordre : <strong>−5 points</strong>.</li>
+        <li>Le score d’un niveau ne peut jamais descendre sous 0.</li>
+      </ul>
+
+      <h4>🧪 Règles de laboratoire</h4>
+      <ul>
+        <li>Tracer la ligne de base <strong>au crayon</strong>, jamais au stylo (son encre serait entraînée).</li>
+        <li>Déposer la tache <strong>juste au-dessus de la ligne de base</strong>, au centre : trop haute, trop basse ou trop près du bord, elle est pénalisée.</li>
+        <li>L’éluant reste <strong>sous le dépôt</strong> et ne doit jamais le toucher.</li>
+        <li>Arrêter l’élution <strong>sur la ligne d’arrêt</strong> : trop tôt ou trop tard coûte des points.</li>
+        <li>Rf = distance parcourue par la tache ÷ distance parcourue par le front, toujours entre 0 et 1.</li>
+        <li>Calculs au centième (0,40 · 4,16) ; virgule ou point acceptés.</li>
+      </ul>
+
+      <h4>🎁 Cadeaux et certificat</h4>
+      <ul>
+        <li>Un cadeau par niveau terminé, quelle que soit la note.</li>
+        <li>Certificat imprimable quand les 6 niveaux sont terminés : bronze dès 180 points, argent dès 360, or dès 540.</li>
+        <li><strong>Note sur 20</strong> : total des points ÷ 600 × 20, avec mention (Insuffisant &lt; 10, Passable 10, Assez bien 12, Bien 14, Très bien 16, Excellent 18).</li>
+      </ul>
+    </div>
+    <button id="rulesClose" class="btn btn-primary btn-wide" type="button" data-i18n="rules.close">J’ai compris, je joue ! 🚀</button>
+  </div>
+</div>
+
+<div id="manualModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="manualTitle">
+  <div class="modal-card manual-card">
+    <h3 id="manualTitle">📚 Fiches du manuel CCM</h3>
+    <p class="manual-src">D’après le <strong>Manuel du formateur — Structure et montage de la chromatographie sur couche mince</strong>, Professeur DOUADI Nabil, INSFP El Hidhab (2026–2027).</p>
+    <p class="manual-sign">Professeur Douadi Nabil</p>
+    <p class="manual-intro">Les valeurs et gestes attendus dans les niveaux, à consulter à tout moment.</p>
+
+    <details open>
+      <summary>1 · Les 7 étapes d’une CCM</summary>
+      <table class="rules-table">
+        <tr><th>#</th><th>Étape</th><th>Matériel</th><th>Valeurs</th></tr>
+        <tr><td>1</td><td>Plaque</td><td>Silice gel 60 F254</td><td>0,2–0,25 mm · 5×10 ou 10×20 cm</td></tr>
+        <tr><td>2</td><td>Dépôt</td><td>Capillaire, microseringue</td><td>1 à 5 µL · tache ≤ 3 mm</td></tr>
+        <tr><td>3</td><td>Cuve + éluant</td><td>Cuve fermée, papier filtre</td><td>éluant 0,5 cm · saturation 15–30 min</td></tr>
+        <tr><td>4</td><td>Développement</td><td>Plaque verticale, cuve fermée</td><td>front à 1 cm du haut · 10–30 min</td></tr>
+        <tr><td>5</td><td>Séchage</td><td>Air / hotte</td><td>éluant totalement évaporé</td></tr>
+        <tr><td>6</td><td>Révélation</td><td>Lampe UV, réactifs</td><td>254 / 365 nm · 100–110 °C</td></tr>
+        <tr><td>7</td><td>Lecture</td><td>Règle, photo, densitomètre</td><td>Rf, couleur, intensité</td></tr>
+      </table>
+    </details>
+
+    <details>
+      <summary>2 · Grandeurs et valeurs de référence</summary>
+      <table class="rules-table">
+        <tr><th>Grandeur</th><th>Valeur à retenir</th></tr>
+        <tr><td>Rf = d / D</td><td>optimal 0,3 à 0,7 (extrêmes 0,2–0,8)</td></tr>
+        <tr><td>Écart ΔRf</td><td>≥ 0,1 entre deux taches voisines</td></tr>
+        <tr><td>Résolution Rs = 2(d₂−d₁)/(w₁+w₂)</td><td>≥ 1,5 : taches bien séparées</td></tr>
+        <tr><td>Ligne de dépôt</td><td>1 à 1,5 cm du bord inférieur</td></tr>
+        <tr><td>Volume déposé</td><td>1 à 5 µL · tache ≤ 3 mm</td></tr>
+        <tr><td>Hauteur d’éluant</td><td>0,5 cm (au plus 1 cm)</td></tr>
+        <tr><td>Saturation de la cuve</td><td>15 à 30 min</td></tr>
+        <tr><td>Arrêt du front</td><td>à 1 cm du haut de la plaque</td></tr>
+        <tr><td>Lampe UV</td><td>254 nm (extinction) et 365 nm (fluorescence)</td></tr>
+        <tr><td>Couche / grains</td><td>0,2–0,25 mm · 10–15 µm (HPTLC : 0,1–0,2 mm · 5 µm)</td></tr>
+      </table>
+    </details>
+
+    <details>
+      <summary>3 · Les 7 fiches composants</summary>
+      <ul class="manual-list">
+        <li><strong>Plaque</strong> : supporte la silice ; manipuler par les bords, ne pas toucher la couche, stocker au sec.</li>
+        <li><strong>Dépôt</strong> : capillaire 1–5 µL, toucher la plaque ~1 s sans appuyer, sécher entre deux passages.</li>
+        <li><strong>Cuve</strong> : couvercle rodé + papier filtre ; éluant 0,5 cm ; saturation 15–30 min ; ne pas bouger pendant la migration.</li>
+        <li><strong>Éluant</strong> : mélange de 2–3 solvants mesurés séparément, préparé juste avant ; 10–15 mL pour une cuve 10×5 cm.</li>
+        <li><strong>Révélation UV</strong> : 254 nm → taches sombres sur fond vert ; 365 nm → fluorescence ; encercler au crayon.</li>
+        <li><strong>Révélation chimique</strong> : iode (brun, réversible), ninhydrine (acides aminés, violet), vanilline-H₂SO₄ (lipides), KMnO₄.</li>
+        <li><strong>Lecture</strong> : règle, photo avec échelle, schéma au cahier ; noter éluant, plaque, température et date.</li>
+      </ul>
+    </details>
+
+    <details>
+      <summary>4 · Les 5 montages types (M1 à M5)</summary>
+      <table class="rules-table">
+        <tr><th>Montage</th><th>Usage</th><th>Point clé</th></tr>
+        <tr><td>M1 bécher couvert</td><td>initiation, essai d’éluant</td><td>saturation incomplète, front incurvé</td></tr>
+        <tr><td>M2 cuve saturée</td><td>routine, 10 pistes et plus</td><td>front droit, Rf reproductibles</td></tr>
+        <tr><td>M3 bidimensionnelle</td><td>mélanges très complexes</td><td>2 éluants à 90°, un seul dépôt</td></tr>
+        <tr><td>M4 HPTLC</td><td>dosage, traçabilité</td><td>applicateur en bandes + densitomètre</td></tr>
+        <tr><td>M5 préparative</td><td>isoler 5 à 100 mg</td><td>bande, grattage, extraction polaire</td></tr>
+      </table>
+    </details>
+
+    <details>
+      <summary>5 · Choisir l’éluant</summary>
+      <table class="rules-table">
+        <tr><th>Constituants</th><th>Éluant indicatif (v/v)</th></tr>
+        <tr><td>Très apolaires (lipides, carotènes)</td><td>hexane / acétate d’éthyle 90:10 à 80:20</td></tr>
+        <tr><td>Pigments végétaux</td><td>éther de pétrole / acétone 70:30</td></tr>
+        <tr><td>Polarité moyenne (additifs)</td><td>toluène / acétate d’éthyle 70:30</td></tr>
+        <tr><td>Polaires, acides aminés</td><td>n-butanol / acide acétique / eau 4:1:1</td></tr>
+      </table>
+      <p class="rules-note">Taches trop basses (Rf &lt; 0,2) → plus de solvant polaire. Trop hautes (Rf &gt; 0,8) → moins.</p>
+    </details>
+
+    <details>
+      <summary>6 · Révélation : quel mode choisir ?</summary>
+      <table class="rules-table">
+        <tr><th>Mode</th><th>Cible</th><th>Réversible</th></tr>
+        <tr><td>Visible</td><td>composés colorés</td><td>oui</td></tr>
+        <tr><td>UV 254 nm</td><td>composés absorbants</td><td>oui</td></tr>
+        <tr><td>UV 365 nm</td><td>composés fluorescents</td><td>oui</td></tr>
+        <tr><td>Iode</td><td>organiques variés</td><td>oui (s’estompe)</td></tr>
+        <tr><td>Ninhydrine</td><td>acides aminés (violet, 105 °C)</td><td>non</td></tr>
+        <tr><td>Vanilline / H₂SO₄</td><td>lipides, stérols</td><td>non</td></tr>
+      </table>
+      <p class="rules-note">Ordre : visible → UV → réactif chimique. Encercler les taches au crayon à chaque étape.</p>
+    </details>
+
+    <details>
+      <summary>7 · Dépannage</summary>
+      <table class="rules-table">
+        <tr><th>Symptôme</th><th>Action corrective</th></tr>
+        <tr><td>Taches traînantes</td><td>diluer, déposer moins, ajuster l’éluant</td></tr>
+        <tr><td>Front oblique ou incurvé</td><td>saturer 15–30 min, poser la plaque droite</td></tr>
+        <tr><td>Taches non séparées</td><td>changer la proportion ou la nature des solvants, essayer M3</td></tr>
+        <tr><td>Taches au front ou au dépôt</td><td>diminuer ou augmenter la polarité de l’éluant</td></tr>
+        <tr><td>Rf non reproductibles</td><td>éluant frais, même cuve, même saturation, plaque activée</td></tr>
+        <tr><td>Dépôts dissous dans la cuve</td><td>niveau d’éluant trop haut : réduire à 0,5 cm et recommencer</td></tr>
+      </table>
+    </details>
+
+    <details>
+      <summary>8 · Glossaire français – anglais</summary>
+      <table class="rules-table">
+        <tr><th>Français</th><th>Anglais</th></tr>
+        <tr><td>Chromatographie sur couche mince</td><td>thin-layer chromatography (TLC)</td></tr>
+        <tr><td>Rapport frontal</td><td>retardation factor (Rf)</td></tr>
+        <tr><td>Front du solvant</td><td>solvent front</td></tr>
+        <tr><td>Ligne de dépôt</td><td>origin / starting line</td></tr>
+        <tr><td>Éluant / phase mobile</td><td>eluent / mobile phase</td></tr>
+        <tr><td>Phase stationnaire</td><td>stationary phase</td></tr>
+        <tr><td>Cuve de développement</td><td>developing chamber</td></tr>
+        <tr><td>Saturation</td><td>chamber saturation</td></tr>
+        <tr><td>Révélation</td><td>visualization</td></tr>
+        <tr><td>Témoin / étalon</td><td>reference standard</td></tr>
+        <tr><td>Co-chromatographie</td><td>co-spotting</td></tr>
+        <tr><td>Traînée</td><td>tailing / streaking</td></tr>
+        <tr><td>HPTLC</td><td>high-performance TLC</td></tr>
+      </table>
+    </details>
+
+    <p class="rules-note">« Une bonne CCM tient en cinq gestes : saturer la cuve, déposer petit, garder la ligne de dépôt au-dessus de l’éluant, marquer le front tout de suite, comparer toujours avec un témoin. » — Pr Douadi Nabil</p>
+
+    <button id="manualClose" class="btn btn-primary btn-wide" type="button">Retour au jeu</button>
+  </div>
+</div>
+
+<div id="confetti" class="confetti-layer" aria-hidden="true"></div>
+
+<script src="i18n.js"></script>
+<script src="sound.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

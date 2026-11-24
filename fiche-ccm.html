@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CCM — Fiche de révision à imprimer</title>
+<link rel="icon" type="image/png" href="images/favicon.png">
+<style>
+  :root{
+    --ink:#17203a; --soft:#4b5878; --line:#dfe5f2; --violet:#6b4fe0; --blue:#2b6fe0;
+    --pink:#c8386a; --green:#0f8a63; --paper:#fff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:#eef2fa; color:var(--ink);
+    font-family:"Times New Roman",Times,Georgia,serif;
+    font-size:14px; line-height:1.5;
+  }
+  .sheet{
+    max-width:880px; margin:20px auto; background:var(--paper);
+    padding:34px 40px 42px; border-radius:10px;
+    box-shadow:0 18px 44px -28px rgba(20,30,70,.5);
+  }
+  header.top{border-bottom:3px solid var(--violet); padding-bottom:14px; margin-bottom:18px; display:flex; align-items:center; gap:14px}
+  header.top .logo{width:78px;height:78px;border-radius:50%;object-fit:cover;flex:none;border:3px solid #fff;box-shadow:0 8px 18px -10px rgba(20,30,70,.6)}
+  header.top>div{flex:1;min-width:0}
+  .kicker{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--violet);font-weight:700;margin:0}
+  h1{font-size:23px;line-height:1.2;margin:6px 0 8px}
+  .src{font-size:12px;color:var(--soft);margin:0}
+  .gestes{
+    background:#f4f1ff;border:2px solid #e0d8ff;border-left:6px solid var(--violet);
+    border-radius:8px;padding:10px 14px;font-size:13px;margin:16px 0 4px;
+  }
+  h2{font-size:15px;margin:22px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--line);color:var(--blue)}
+  h2 span{color:var(--soft);font-weight:600;font-size:12px}
+  p{margin:6px 0}
+  ul{margin:6px 0 6px 18px;padding:0}
+  li{margin:3px 0}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin:8px 0}
+  th{background:#f0f4ff;text-align:left;font-weight:700;color:#24417e}
+  th,td{border:1px solid var(--line);padding:5px 8px;vertical-align:top}
+  tr:nth-child(even) td{background:#fbfcff}
+  .form{background:#f6f9ff;border:1px dashed #b9cdf5;border-radius:7px;padding:8px 12px;margin:8px 0;font-size:13px}
+  .key{background:#fff7e3;border:1px solid #ffe3a3;border-radius:6px;padding:6px 10px;font-size:12.5px;margin:8px 0}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  ol{margin:6px 0 6px 18px;padding:0}
+  .answers{font-size:12.5px;font-weight:700;color:var(--green);background:#e8faf2;border-radius:6px;padding:7px 10px}
+  footer{margin-top:26px;border-top:1px solid var(--line);padding-top:10px;font-size:11.5px;color:var(--soft)}
+  .no-print{position:fixed;right:18px;bottom:18px;background:var(--violet);color:#fff;border:0;border-radius:999px;
+    padding:11px 18px;font-weight:700;font-size:14px;cursor:pointer;box-shadow:0 12px 24px -14px rgba(0,0,0,.6)}
+  @media (max-width:700px){.sheet{margin:0;border-radius:0;padding:22px 16px}.cols{grid-template-columns:1fr}}
+  .sig{
+    display:flex;align-items:center;justify-content:space-between;gap:20px;
+    margin-top:18px;padding-top:12px;border-top:2px solid var(--violet);
+    break-inside:avoid;page-break-inside:avoid;
+  }
+  .sig-label{margin:0;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--soft);font-weight:700}
+  .sig-name{
+    margin:2px 0 0;font-family:"Segoe Script","Bradley Hand","Brush Script MT","Lucida Handwriting",cursive;
+    font-size:27px;line-height:1.15;color:var(--violet);transform:rotate(-2deg);
+  }
+  .sig-role{margin:2px 0 0;font-size:11.5px;color:var(--soft)}
+  .sig-stamp{
+    flex:none;width:118px;height:66px;border:2px dashed #c9b8f5;border-radius:10px;
+    display:grid;place-items:center;text-align:center;font-size:10px;letter-spacing:.08em;
+    text-transform:uppercase;color:#8f7bff;font-weight:700;
+  }
+  @page{size:A4;margin:12mm}
+  @media print{
+    body{background:#fff;font-size:10.5pt}
+    .sheet{box-shadow:none;margin:0;padding:0;max-width:none;border-radius:0}
+    .no-print{display:none}
+    h2{break-after:avoid;page-break-after:avoid}
+    table,.form,.gestes,.key{break-inside:avoid;page-break-inside:avoid}
+    a{color:inherit;text-decoration:none}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header class="top">
+    <img class="logo" src="images/logo-professeur.png" alt="Professeur Douadi Nabil">
+    <div>
+      <p class="kicker">Fiche de révision · Contrôle de qualité et environnement</p>
+      <h1>Chromatographie sur couche mince (CCM) — l’essentiel à apprendre</h1>
+      <p class="src">Extraits du <strong>Manuel du formateur — Structure et montage de la chromatographie sur couche mince</strong>,
+        Professeur DOUADI Nabil, INSFP El Hidhab · 2026–2027.</p>
+    </div>
+  </header>
+
+  <div class="gestes">
+    <strong>Une bonne CCM tient en cinq gestes :</strong> saturer la cuve · déposer petit · garder la ligne de dépôt au-dessus de l’éluant ·
+    marquer le front tout de suite · comparer toujours avec un témoin.
+  </div>
+
+  <h2>1 · Définition et domaines</h2>
+  <ul>
+    <li><strong>CCM</strong> (anglais <strong>TLC</strong>, <em>Thin-Layer Chromatography</em>) : sépare les constituants d’un mélange sur une plaque de phase stationnaire, le plus souvent de la <strong>silice</strong>.</li>
+    <li>Chromatographie d’<strong>adsorption</strong> (silice) ou de <strong>partage</strong>, en système ouvert : la phase mobile monte par <strong>capillarité</strong>, sans pompe ; couche de <strong>0,1 à 0,25 mm</strong>.</li>
+    <li><strong>Qualitative</strong> (comparaison à des témoins) ; <strong>semi-quantitative à quantitative</strong> avec un densitomètre.</li>
+  </ul>
+  <table>
+    <tr><th>Domaine</th><th>Exemples</th><th>Révélation usuelle</th></tr>
+    <tr><td>Colorants et additifs</td><td>colorants de confiserie, conservateurs, édulcorants</td><td>visible, UV 254 nm</td></tr>
+    <tr><td>Pigments végétaux</td><td>chlorophylles, caroténoïdes, xanthophylles</td><td>visible</td></tr>
+    <tr><td>Acides aminés</td><td>hydrolysats de protéines, extraits végétaux</td><td>ninhydrine (violet)</td></tr>
+    <tr><td>Lipides et vitamines</td><td>tocophérols, stérols, acides gras</td><td>vanilline sulfurique, iode</td></tr>
+    <tr><td>Contaminants</td><td>mycotoxines, pesticides (criblage)</td><td>UV 365 nm</td></tr>
+    <tr><td>Synthèse et pureté</td><td>suivi de réaction, contrôle d’un médicament</td><td>UV 254 nm, iode</td></tr>
+  </table>
+
+  <h2>2 · Principe de la séparation</h2>
+  <p>Chaque molécule se partage entre la <strong>surface de la silice</strong> (groupes silanol <strong>Si–OH</strong>, polaires, liaisons hydrogène)
+    où elle est retenue, et l’<strong>éluant</strong> qui monte et l’entraîne.</p>
+  <ul>
+    <li><strong>Composé polaire</strong> → adsorbé sur la silice → migre peu → <strong>Rf faible</strong>.</li>
+    <li><strong>Composé apolaire</strong> → reste dans l’éluant → monte haut → <strong>Rf élevé</strong>.</li>
+    <li>L’adsorption est un <strong>équilibre dynamique</strong> : la molécule s’adsorbe et se désorbe en permanence.</li>
+  </ul>
+  <div class="key"><strong>Phase normale :</strong> sur silice, le composé qui monte le plus haut est le <strong>moins polaire</strong>. C’est l’inverse de la HPLC en phase inverse (C18).</div>
+
+  <h2>3 · Les 7 étapes d’une CCM</h2>
+  <table>
+    <tr><th>#</th><th>Étape</th><th>Matériel</th><th>Valeurs courantes</th></tr>
+    <tr><td>1</td><td>Plaque</td><td>silice gel 60 F254 (aluminium, verre, plastique)</td><td>couche 0,2–0,25 mm · 5×10 ou 10×20 cm</td></tr>
+    <tr><td>2</td><td>Dépôt</td><td>capillaire, microseringue, micropipette</td><td>1 à 5 µL · tache ≤ 3 mm</td></tr>
+    <tr><td>3</td><td>Cuve + éluant</td><td>cuve fermée, papier filtre</td><td>éluant 0,5 cm · saturation 15–30 min</td></tr>
+    <tr><td>4</td><td>Développement</td><td>plaque verticale, cuve fermée</td><td>front à 1 cm du haut · 10 à 30 min</td></tr>
+    <tr><td>5</td><td>Séchage</td><td>hotte, séchoir</td><td>éluant totalement évaporé</td></tr>
+    <tr><td>6</td><td>Révélation</td><td>lampe UV, réactifs, plaque chauffante</td><td>UV 254 et 365 nm · 100–110 °C</td></tr>
+    <tr><td>7</td><td>Lecture</td><td>règle, appareil photo, densitomètre</td><td>Rf, couleur, intensité</td></tr>
+  </table>
+
+  <h2>4 · Grandeurs chromatographiques</h2>
+  <div class="form">
+    <strong>Rf = d / D</strong> — d = ligne de dépôt → <strong>centre</strong> de la tache ; D = ligne de dépôt → <strong>front</strong> ; 0 &lt; Rf &lt; 1, sans unité.<br>
+    <strong>Rs = 2 (d₂ − d₁) / (w₁ + w₂)</strong> — w = diamètre de la tache. &nbsp;·&nbsp; <strong>ΔRf = Rf₂ − Rf₁</strong>.
+  </div>
+  <table>
+    <tr><th>Grandeur</th><th>Valeur recommandée</th></tr>
+    <tr><td>Rf</td><td><strong>0,3 à 0,7</strong> (extrêmes 0,2 à 0,8)</td></tr>
+    <tr><td>ΔRf entre deux taches voisines</td><td><strong>≥ 0,1</strong></td></tr>
+    <tr><td>Résolution Rs</td><td><strong>≥ 1,5</strong> (taches bien séparées)</td></tr>
+    <tr><td>Forme de la tache</td><td>ronde et compacte ; Ø ≤ 5 mm (idéal 2–3 mm)</td></tr>
+    <tr><td>Reproductibilité du Rf d’un étalon</td><td>± 0,05</td></tr>
+  </table>
+  <div class="key">Le Rf dépend de la plaque, de l’éluant, de la <strong>température</strong>, de la <strong>saturation</strong> et de la <strong>quantité déposée</strong> :
+    comparer toujours des taches de la <strong>même plaque</strong> ; jamais de conclusion sur un seul Rf publié.</div>
+
+  <h2>5 · Choisir l’éluant</h2>
+  <p><strong>Force éluante croissante sur silice :</strong> hexane &lt; toluène &lt; CH₂Cl₂ &lt; acétate d’éthyle &lt; acétone &lt; éthanol &lt; méthanol &lt; eau.</p>
+  <table>
+    <tr><th>Constituants à séparer</th><th>Éluant indicatif (v/v)</th></tr>
+    <tr><td>Très apolaires (lipides, carotènes)</td><td>hexane / acétate d’éthyle 90:10 à 80:20</td></tr>
+    <tr><td>Pigments végétaux</td><td>éther de pétrole / acétone 70:30</td></tr>
+    <tr><td>Polarité moyenne (additifs)</td><td>toluène / acétate d’éthyle 70:30</td></tr>
+    <tr><td>Polaires, acides aminés</td><td>n-butanol / acide acétique / eau 4:1:1</td></tr>
+  </table>
+  <p><strong>Ajustement :</strong> Rf &lt; 0,2 → augmenter la proportion de solvant polaire ; Rf &gt; 0,8 → la diminuer.
+    Si deux taches restent voisines, changer la <strong>nature</strong> du solvant polaire (acétate d’éthyle au lieu d’acétone).</p>
+
+  <h2>6 · Gestes et cotes à respecter</h2>
+  <ul>
+    <li><strong>Plaque :</strong> manipuler par les bords, ne pas toucher la couche, stocker au sec, découper à la règle.</li>
+    <li><strong>Ligne de dépôt :</strong> au <strong>crayon à papier</strong>, à <strong>1 à 1,5 cm du bord inférieur</strong>, sans entamer la couche (jamais au stylo).</li>
+    <li><strong>Dépôt :</strong> capillaire propre, contact <strong>≈ 1 s sans appuyer</strong>, tache de 2–3 mm, sécher entre deux passages, ≥ 1 cm entre pistes et du bord.</li>
+    <li><strong>Cuve :</strong> éluant <strong>0,5 cm</strong> (au plus 1 cm) <strong>sous la ligne de dépôt</strong>, papier filtre, <strong>saturation 15–30 min</strong>, plaque droite, cuve immobile, éluant renouvelé.</li>
+    <li><strong>Front :</strong> sortir la plaque à <strong>1 cm du haut</strong> et marquer le front au crayon <strong>immédiatement</strong>.</li>
+  </ul>
+
+  <h2>7 · Révélation : quel mode choisir ?</h2>
+  <table>
+    <tr><th>Mode</th><th>Cible</th><th>Réversible</th><th>Remarque</th></tr>
+    <tr><td>Visible</td><td>composés colorés</td><td>oui</td><td>lire tout de suite : les pigments pâlissent</td></tr>
+    <tr><td>UV 254 nm</td><td>composés absorbants</td><td>oui</td><td>plaque F254 : tache <strong>sombre sur fond vert</strong></td></tr>
+    <tr><td>UV 365 nm</td><td>composés fluorescents</td><td>oui</td><td>taches brillantes sur fond sombre</td></tr>
+    <tr><td>Iode</td><td>organiques variés</td><td>oui (s’estompe)</td><td>taches brunes, encercler vite</td></tr>
+    <tr><td>Ninhydrine</td><td>acides aminés, amines</td><td>non</td><td>chauffer ≈ 105 °C, taches violettes</td></tr>
+    <tr><td>Vanilline / H₂SO₄</td><td>lipides, stérols, terpènes</td><td>non</td><td>réactif corrosif</td></tr>
+  </table>
+  <p><strong>Ordre :</strong> visible → UV 254 → UV 365 → réactif chimique. Encercler les taches au crayon après chaque lecture.</p>
+
+  <h2>8 · Les cinq montages types</h2>
+  <table>
+    <tr><th>Montage</th><th>Principe</th><th>Usage</th><th>Limite</th></tr>
+    <tr><td><strong>M1</strong> bécher couvert</td><td>bécher + verre de montre ou film</td><td>initiation, essai d’éluant, suivi de réaction</td><td>saturation incomplète : front incurvé</td></tr>
+    <tr><td><strong>M2</strong> cuve saturée</td><td>couvercle rodé + papier filtre</td><td>routine, 10 pistes et plus, Rf reproductibles</td><td>saturation à respecter</td></tr>
+    <tr><td><strong>M3</strong> bidimensionnelle</td><td>2 développements à 90°, 2 éluants</td><td>mélanges très complexes</td><td>1 seul échantillon, temps doublé</td></tr>
+    <tr><td><strong>M4</strong> HPTLC</td><td>applicateur en bandes + densitomètre</td><td>dosage, traçabilité, 20 à 70 pistes</td><td>investissement, personnel formé</td></tr>
+    <tr><td><strong>M5</strong> préparative</td><td>plaque épaisse, bande, grattage, extraction</td><td>isoler 5 à 100 mg</td><td>pertes à l’extraction</td></tr>
+  </table>
+  <p><strong>M5 en 4 étapes :</strong> dépôt en bande → développement en grande cuve saturée → repérage UV et grattage → extraction au solvant polaire (acétone, méthanol), filtration, évaporation.
+    L’extraction est l’<strong>inverse de l’adsorption</strong> : on n’utilise pas l’éluant de développement, trop faible.</p>
+
+  <h2>9 · Dépannage</h2>
+  <table>
+    <tr><th>Symptôme</th><th>Actions correctives</th></tr>
+    <tr><td>Taches traînantes</td><td>diluer, déposer moins, ajuster l’éluant (acide/base si composé acide)</td></tr>
+    <tr><td>Front oblique ou incurvé</td><td>saturer 15–30 min, poser la plaque droite, vérifier les bords</td></tr>
+    <tr><td>Taches non séparées</td><td>changer proportion ou nature des solvants ; essayer M3</td></tr>
+    <tr><td>Taches au front ou au dépôt</td><td>diminuer ou augmenter la polarité de l’éluant</td></tr>
+    <tr><td>Rf non reproductibles</td><td>éluant frais, même cuve, même saturation, plaque activée</td></tr>
+    <tr><td>Aucune tache visible</td><td>concentrer, changer de révélation, déposer plusieurs fois</td></tr>
+    <tr><td>Dépôts dissous dans la cuve</td><td>niveau d’éluant trop haut : réduire à 0,5 cm, recommencer</td></tr>
+  </table>
+
+  <h2>10 · TP — pigments d’épinards</h2>
+  <p>Éluant <strong>éther de pétrole / acétone 70:30</strong> · éluant 0,5 cm · saturation 15 min · front à 1 cm du haut · lecture en lumière visible · dépôt en 6 à 8 passages.</p>
+  <table>
+    <tr><th>Pigment (de haut en bas)</th><th>Couleur</th><th>Rf indicatif</th><th>Polarité</th></tr>
+    <tr><td>β-carotène</td><td>jaune-orangé</td><td>0,9 à 1,0</td><td>apolaire</td></tr>
+    <tr><td>Phéophytine</td><td>gris</td><td>intermédiaire</td><td>chlorophylle sans magnésium</td></tr>
+    <tr><td>Chlorophylle a</td><td>vert-bleu</td><td>0,5 à 0,6</td><td>un peu moins polaire que la chl. b</td></tr>
+    <tr><td>Chlorophylle b</td><td>vert-jaune</td><td>0,4 à 0,5</td><td>groupe aldéhyde</td></tr>
+    <tr><td>Xanthophylles (lutéine…)</td><td>jaune</td><td>0,2 à 0,4</td><td>groupes –OH, les plus retenues</td></tr>
+  </table>
+  <p><strong>Polarité décroissante :</strong> xanthophylles &gt; chlorophylle b &gt; chlorophylle a &gt; phéophytine &gt; β-carotène.
+    <strong>Amélioration :</strong> chlorophylles a et b trop proches → diminuer l’acétone (80:20).</p>
+
+  <div class="cols">
+    <div>
+      <h2>11 · Exercices corrigés</h2>
+      <p><strong>Rf et Rs.</strong> D = 8,0 cm ; taches à 2,4 et 5,2 cm ; w = 0,5 et 0,6 cm.<br>
+        Rf = <strong>0,30</strong> et <strong>0,65</strong> ; ΔRf = 0,35 ; Rs = 5,6/1,1 ≈ <strong>5,1</strong> → séparation parfaite.</p>
+      <p><strong>Volume d’éluant.</strong> Cuve 8 × 4 cm, h = 0,5 cm → V = <strong>16 mL</strong> ; hexane 11,2 mL + acétate d’éthyle 4,8 mL (70:30).</p>
+      <p><strong>Identification.</strong> D = 9,0 cm ; 5,2 cm → Rf 0,58 (T2) ; 6,7 cm → Rf 0,74 (T3) ; T1 absent (rien à 0,32).
+        Confirmer par co-chromatographie et un second éluant.</p>
+      <p><strong>Rs limite.</strong> Ø 0,5 cm, écart 0,5 cm → Rs = <strong>1,0</strong> (insuffisant) ; pour Rs = 1,5 il faut Δd = 0,75 cm.</p>
+    </div>
+    <div>
+      <h2>12 · QCM de contrôle</h2>
+      <ol>
+        <li>Sur silice, le composé qui monte le plus haut est : A. le plus polaire · B. le moins polaire · C. le plus lourd.</li>
+        <li>Rf s’exprime par : A. D/d · B. d/D · C. d × D.</li>
+        <li>Rf ≈ 0,1 : A. diminuer le solvant polaire · B. augmenter le solvant polaire.</li>
+        <li>Niveau d’éluant : A. au-dessus du dépôt · B. au niveau du dépôt · C. au-dessous (0,5 cm).</li>
+        <li>UV 254 nm sur F254 : A. tache sombre sur fond vert · B. tache verte sur fond sombre.</li>
+        <li>Le papier filtre sert à : A. filtrer · B. saturer l’atmosphère · C. chauffer.</li>
+        <li>Hydrolysat complexe, un seul dépôt : A. M1 · B. M3 · C. M5.</li>
+        <li>Le densitomètre : A. dépose · B. quantifie par l’aire des pics.</li>
+        <li>Ligne de dépôt : A. stylo · B. crayon à papier · C. marqueur.</li>
+        <li>Le front se marque : A. avant · B. dès la sortie de la plaque · C. le lendemain.</li>
+      </ol>
+      <div class="answers">Réponses : 1-B · 2-B · 3-B · 4-C · 5-A · 6-B · 7-B · 8-B · 9-B · 10-B</div>
+    </div>
+  </div>
+
+  <h2>13 · Valeurs à retenir par cœur</h2>
+  <ul>
+    <li>Couche : <strong>0,2–0,25 mm</strong> (HPTLC 0,1–0,2 mm) · grains <strong>10–15 µm</strong> (HPTLC 5 µm).</li>
+    <li>Ligne de dépôt : <strong>1 à 1,5 cm</strong> · dépôt <strong>1 à 5 µL</strong> · tache <strong>≤ 3 mm</strong>.</li>
+    <li>Éluant : <strong>0,5 cm</strong> (au plus 1 cm) · saturation <strong>15 à 30 min</strong> · front arrêté à <strong>1 cm du haut</strong>.</li>
+    <li>Rf optimal <strong>0,3–0,7</strong> · ΔRf <strong>≥ 0,1</strong> · Rs <strong>≥ 1,5</strong>.</li>
+    <li>UV <strong>254 nm</strong> (extinction) et <strong>365 nm</strong> (fluorescence) · ninhydrine <strong>105 °C</strong>.</li>
+  </ul>
+
+  <h2>14 · Glossaire français – anglais</h2>
+  <p>Chromatographie sur couche mince — <em>thin-layer chromatography (TLC)</em> · Rapport frontal — <em>retardation factor (Rf)</em> ·
+    Front du solvant — <em>solvent front</em> · Ligne de dépôt — <em>origin / starting line</em> · Éluant / phase mobile — <em>eluent / mobile phase</em> ·
+    Phase stationnaire — <em>stationary phase</em> · Cuve de développement — <em>developing chamber</em> · Saturation — <em>chamber saturation</em> ·
+    Révélation — <em>visualization</em> · Témoin / étalon — <em>reference standard</em> · Co-chromatographie — <em>co-spotting</em> ·
+    Traînée — <em>tailing / streaking</em> · HPTLC — <em>high-performance TLC</em> · Densitométrie — <em>densitometry</em>.</p>
+
+  <footer>
+    Fiche extraite du <em>Manuel du formateur — Structure et montage de la chromatographie sur couche mince (CCM)</em>,
+    Professeur DOUADI Nabil, INSFP El Hidhab, 2026–2027. Document pédagogique — reproduction autorisée pour les apprenants.
+  </footer>
+
+  <section class="sig">
+    <div class="sig-left">
+      <p class="sig-label">Élaboré et signé par</p>
+      <p class="sig-name">Professeur Douadi Nabil</p>
+      <p class="sig-role">Formateur · INSFP El Hidhab — Spécialité Contrôle de qualité et environnement</p>
+    </div>
+    <div class="sig-stamp">
+      <span>Signature<br>et cachet</span>
+    </div>
+  </section>
+</div>
+
+<button class="no-print" onclick="window.print()">🖨️ Imprimer / PDF</button>
+</body>
+</html>
