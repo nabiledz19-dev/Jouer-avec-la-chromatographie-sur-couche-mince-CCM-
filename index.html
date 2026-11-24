@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="copyright" content="Professeur Douadi Nabil — INSFP El Hidhab">
 <title>Jouer avec la chromatographie sur couche mince (CCM)</title>
 <link rel="icon" type="image/png" href="images/favicon.png">
 <link rel="apple-touch-icon" href="images/logo-professeur.png">
@@ -34,7 +36,7 @@
   <section id="screen-home" class="screen">
     <div class="home-card">
       <div class="hero">
-        <img src="images/tlc-hero.jpg" alt="Plaque de chromatographie sur couche mince dans une cuve d'éluant">
+        <img src="images/tlc-hero.jpg" alt="Photo réelle d'une plaque de chromatographie sur couche mince révélée sous lampe UV : les composés séparés apparaissent en taches sombres sur fond vert fluorescent">
         <span class="hero-badge" data-i18n="home.badge">Mode difficile · Chrono &amp; calculs</span>
       </div>
 
@@ -45,6 +47,8 @@
           <span data-i18n="home.brandSub">INSFP El Hidhab · Jeu éducatif CCM</span>
         </div>
       </div>
+
+      <p class="home-free" data-i18n="home.free">Jeu gratuit — libre d’accès pour tous les stagiaires</p>
 
       <div class="home-tools">
         <div class="lang-switch home-lang" role="group" aria-label="Langue / Language / اللغة">
@@ -104,6 +108,9 @@
       <p class="credit">
         <span data-i18n="home.credit">Jeu conçu par</span> <span class="credit-sign">Professeur Douadi Nabil</span>
         <span class="credit-role" data-i18n="home.creditRole">INSFP El Hidhab · Contrôle de qualité et environnement</span>
+        <span class="credit-legal" data-i18n="home.legal">© 2026 Professeur Douadi Nabil — Tous droits réservés · Reproduction et partage interdits</span>
+        <span class="credit-version">Version 1.1 · novembre 2026</span>
+        <span class="credit-photo">Photo : <a href="https://commons.wikimedia.org/wiki/File:Diselenide_TLC_chromatogram.jpg" target="_blank" rel="noopener noreferrer">Daniel Dróżdż</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a></span>
       </p>
     </div>
   </section>
@@ -442,6 +449,19 @@
 </div>
 
 <div id="confetti" class="confetti-layer" aria-hidden="true"></div>
+
+<!-- ---------- ACCÈS PROTÉGÉ ---------- -->
+<div id="accessGate" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="accessTitle">
+  <div class="modal-card access-card">
+    <img class="access-logo" src="images/logo-professeur.png" alt="Professeur Douadi Nabil">
+    <h3 id="accessTitle" data-i18n="access.title">🔒 Jeu protégé</h3>
+    <p class="access-text" data-i18n="access.text">Ce jeu est réservé aux stagiaires du Professeur Douadi Nabil. Saisissez le code d’accès remis par le formateur.</p>
+    <input id="accessCode" class="access-input" type="text" maxlength="32" autocomplete="off" spellcheck="false" placeholder="Code d’accès" data-i18n-placeholder="access.placeholder">
+    <p id="accessHint" class="hint hidden"></p>
+    <button id="accessBtn" class="btn btn-primary btn-wide" type="button" data-i18n="access.enter">Entrer</button>
+    <p class="access-note" data-i18n="access.note">Contenu protégé — reproduction et partage interdits.</p>
+  </div>
+</div>
 
 <script src="i18n.js"></script>
 <script src="sound.js"></script>
