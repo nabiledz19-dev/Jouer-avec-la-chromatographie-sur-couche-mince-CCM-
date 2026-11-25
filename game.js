@@ -654,10 +654,73 @@ function startPlayer(nomComplet) {
 
 const ONLINE_API = /\.freebuff\.(site|page)$/.test(location.hostname) ? '/api' : null;
 
+const ACCESS_KEY = 'ccm-access';
+let accessToken = null;
+
 async function apiFetch(path, options) {
-  const response = await fetch(ONLINE_API + path, Object.assign({ cache: 'no-store' }, options || {}));
+  const opts = Object.assign({ cache: 'no-store' }, options || {});
+  opts.headers = Object.assign({}, opts.headers || {}, accessToken ? { 'x-access': accessToken } : {});
+  const response = await fetch(ONLINE_API + path, opts);
+  if (response.status === 401) {
+    accessToken = null;
+    try { localStorage.removeItem(ACCESS_KEY); } catch (e) { /* stockage indisponible */ }
+    showAccessGate();
+  }
   if (!response.ok) throw new Error('HTTP ' + response.status);
   return response.json();
+}
+
+function showAccessGate() {
+  const gate = $('#accessGate');
+  if (!gate) return;
+  gate.classList.remove('hidden');
+  const input = $('#accessCode');
+  if (input) setTimeout(() => input.focus(), 60);
+}
+
+function hideAccessGate() {
+  const gate = $('#accessGate');
+  if (gate) gate.classList.add('hidden');
+}
+
+async function submitAccess() {
+  const input = $('#accessCode');
+  const hint = $('#accessHint');
+  if (!input) return;
+  const code = (input.value || '').trim();
+  if (hint) hint.classList.add('hidden');
+  if (!code) return;
+  try {
+    const response = await fetch(ONLINE_API + '/access', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code })
+    });
+    const data = await response.json();
+    if (!response.ok || !data.ok) {
+      if (hint) { hint.textContent = t('access.wrong'); hint.classList.remove('hidden'); }
+      return;
+    }
+    accessToken = data.token || '';
+    try { localStorage.setItem(ACCESS_KEY, accessToken); } catch (e) { /* stockage indisponible */ }
+    hideAccessGate();
+    input.value = '';
+    refreshOnline();
+  } catch (error) {
+    if (hint) { hint.textContent = t('access.error'); hint.classList.remove('hidden'); }
+  }
+}
+
+async function checkAccess() {
+  if (!ONLINE_API) return;
+  try {
+    const response = await fetch(ONLINE_API + '/session', {
+      headers: accessToken ? { 'x-access': accessToken } : {}
+    });
+    const data = await response.json();
+    if (data.open) return;
+    if (!data.ok) showAccessGate();
+  } catch (error) { /* réseau indisponible : le jeu local reste utilisable */ }
 }
 
 function setCompStatus(kind, message) {
@@ -1787,6 +1850,17 @@ function init() {
   document.querySelectorAll('[data-sound]').forEach(btn => {
     btn.addEventListener('click', toggleSound);
   });
+
+  try { accessToken = localStorage.getItem(ACCESS_KEY) || null; } catch (e) { accessToken = null; }
+  const accessBtn = $('#accessBtn');
+  if (accessBtn) accessBtn.addEventListener('click', submitAccess);
+  const accessInput = $('#accessCode');
+  if (accessInput) {
+    accessInput.addEventListener('keydown', event => {
+      if (event.key === 'Enter') submitAccess();
+    });
+  }
+  checkAccess();
   document.querySelectorAll('[data-lang]').forEach(btn => {
     btn.addEventListener('click', () => setLang(btn.getAttribute('data-lang')));
   });

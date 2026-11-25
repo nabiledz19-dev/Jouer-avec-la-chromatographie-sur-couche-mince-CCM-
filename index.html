@@ -5,8 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <meta name="copyright" content="Professeur Douadi Nabil — INSFP El Hidhab">
-<title>Jouer avec la chromatographie sur couche mince (CCM)</title>
-<link rel="icon" type="image/png" href="images/favicon.png">
+<meta name="theme-color" content="#0b1024">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CCM Firas">
+<title>Jouer avec la CCM — Édition Firas (logo : Pr Douadi Nabil)</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="images/logo-professeur.png">
 <link rel="apple-touch-icon" href="images/logo-professeur.png">
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -36,12 +41,12 @@
   <section id="screen-home" class="screen">
     <div class="home-card">
       <div class="hero">
-        <img src="images/tlc-hero.jpg" alt="Photo réelle d'une plaque de chromatographie sur couche mince révélée sous lampe UV : les composés séparés apparaissent en taches sombres sur fond vert fluorescent">
+        <img src="images/tlc-hero.jpg" alt="Photo CCM fournie par le formateur">
         <span class="hero-badge" data-i18n="home.badge">Mode difficile · Chrono &amp; calculs</span>
       </div>
 
       <div class="brand">
-        <img class="brand-logo" src="images/logo-professeur.png" alt="Professeur Douadi Nabil">
+        <img class="brand-logo" src="images/logo-professeur.png" alt="Logo du programme — Professeur Douadi Nabil">
         <div class="brand-txt">
           <strong>Professeur Douadi Nabil</strong>
           <span data-i18n="home.brandSub">INSFP El Hidhab · Jeu éducatif CCM</span>
@@ -58,6 +63,8 @@
         </div>
         <button class="sound-btn" data-sound type="button" aria-label="Son">🔊</button>
       </div>
+
+      <button id="btnInstallPwa" class="btn btn-install hidden" type="button" data-i18n="pwa.install">Installer l’application</button>
 
       <h1 data-i18n="home.title" data-i18n-html>Jouer avec la <span class="grad">chromatographie<br>sur couche mince</span> (CCM)</h1>
       <p class="lead" data-i18n="home.lead" data-i18n-html>
@@ -109,8 +116,8 @@
         <span data-i18n="home.credit">Jeu conçu par</span> <span class="credit-sign">Professeur Douadi Nabil</span>
         <span class="credit-role" data-i18n="home.creditRole">INSFP El Hidhab · Contrôle de qualité et environnement</span>
         <span class="credit-legal" data-i18n="home.legal">© 2026 Professeur Douadi Nabil — Tous droits réservés · Reproduction et partage interdits</span>
-        <span class="credit-version">Version 1.1 · novembre 2026</span>
-        <span class="credit-photo">Photo : <a href="https://commons.wikimedia.org/wiki/File:Diselenide_TLC_chromatogram.jpg" target="_blank" rel="noopener noreferrer">Daniel Dróżdż</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a></span>
+        <span class="credit-version">Version 1.2 · novembre 2026</span>
+        <span class="credit-photo">Photo CCM : fournie par le formateur</span>
       </p>
     </div>
   </section>
@@ -453,10 +460,19 @@
 <!-- ---------- ACCÈS PROTÉGÉ ---------- -->
 <div id="accessGate" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="accessTitle">
   <div class="modal-card access-card">
-    <img class="access-logo" src="images/logo-professeur.png" alt="Professeur Douadi Nabil">
-    <h3 id="accessTitle" data-i18n="access.title">🔒 Jeu protégé</h3>
+    <span class="access-badge">INSFP EL HIDHAB · CCM</span>
+    <div class="access-visual">
+      <span class="access-ring r1" aria-hidden="true"></span>
+      <span class="access-ring r2" aria-hidden="true"></span>
+      <img class="access-logo" src="images/logo-professeur.png" alt="Logo du programme — Professeur Douadi Nabil">
+      <span class="access-lock" aria-hidden="true">🔒</span>
+    </div>
+    <h3 id="accessTitle" data-i18n="access.title">Jeu protégé</h3>
     <p class="access-text" data-i18n="access.text">Ce jeu est réservé aux stagiaires du Professeur Douadi Nabil. Saisissez le code d’accès remis par le formateur.</p>
-    <input id="accessCode" class="access-input" type="text" maxlength="32" autocomplete="off" spellcheck="false" placeholder="Code d’accès" data-i18n-placeholder="access.placeholder">
+    <label class="access-field" for="accessCode">
+      <span data-i18n="access.placeholder">Code d’accès</span>
+      <input id="accessCode" class="access-input" type="text" maxlength="32" autocomplete="off" spellcheck="false" placeholder="••••••••">
+    </label>
     <p id="accessHint" class="hint hidden"></p>
     <button id="accessBtn" class="btn btn-primary btn-wide" type="button" data-i18n="access.enter">Entrer</button>
     <p class="access-note" data-i18n="access.note">Contenu protégé — reproduction et partage interdits.</p>
@@ -466,5 +482,41 @@
 <script src="i18n.js"></script>
 <script src="sound.js"></script>
 <script src="game.js"></script>
+<script>
+/* Installation PWA (navigateurs compatibles) + mode hors ligne */
+(function () {
+  var btn = document.getElementById('btnInstallPwa');
+  var deferredPrompt = null;
+
+  var secureContext = location.protocol === 'https:' ||
+    location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+  if ('serviceWorker' in navigator && secureContext) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('sw.js').catch(function () {});
+    });
+  }
+
+  window.addEventListener('beforeinstallprompt', function (event) {
+    event.preventDefault();
+    deferredPrompt = event;
+    if (btn) btn.classList.remove('hidden');
+  });
+
+  if (btn) {
+    btn.addEventListener('click', function () {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.finally(function () {
+        deferredPrompt = null;
+        btn.classList.add('hidden');
+      });
+    });
+  }
+
+  window.addEventListener('appinstalled', function () {
+    if (btn) btn.classList.add('hidden');
+  });
+})();
+</script>
 </body>
 </html>
